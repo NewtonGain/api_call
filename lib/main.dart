@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 void main()=>runApp(const MyApp());
@@ -12,26 +10,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var _jsonPost=[];
-  Future fetchData() async{
-    try{
-      final response =await http.get(Uri.parse("http://jsonplaceholder.typicode.com/posts"),);
-      final jsonData= jsonDecode(response.body)as List;
-      setState(() {
-        _jsonPost=jsonData;
-      });
-    }
-    catch(err){
-      // ignore: avoid_print
-      print("This is the $err error");
-    }
-  }
-  @override
-  void initState() {
-   
-    super.initState();
-    fetchData();
-  }
+ Future postData()async{
+   try{
+     final response =await http.post(Uri.parse("http://jsonplaceholder.typicode.com/posts"),
+     body:{
+       "userId":1,
+       "title":"uyudsyudyu",
+       "body": "this is the body"
+     }
+     );
+     
+     
+   }catch(e){}
+ }
 
   @override
   
@@ -39,11 +30,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.teal,
-      body: ListView.builder(
-        itemCount: _jsonPost.length,itemBuilder: (context,index){
-      final post=_jsonPost[index];
-      return Center(child: Text("Title: ${post["title"]}\n body:${post["body"]}\n\n"));
-    },),
+      body:ElevatedButton(onPressed: postData , child: Text("Press Button"))
     ),
     );
   }
